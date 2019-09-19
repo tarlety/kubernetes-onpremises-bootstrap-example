@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ISO=~/Documents/iso/ubuntu-18.04.2-server-amd64.iso
-USERNAME=tarlety
+USERNAME=`whoami`
 PASSWORD=iamironman
 
 for NODE in master1 worker1 worker2 worker3 worker4
