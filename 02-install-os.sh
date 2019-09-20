@@ -4,7 +4,7 @@ ISO=~/Documents/iso/ubuntu-18.04.2-server-amd64.iso
 USERNAME=`whoami`
 PASSWORD=iamironman
 
-for NODE in master1 worker1 worker2 worker3 worker4
+for NODE in master1 worker1 # worker2
 do
 	VBoxManage storageattach ${NODE} \
 		--storagectl "IDE Controller" --port 0 --device 0 \
@@ -18,7 +18,6 @@ do
 		--user=${USERNAME} --password=${PASSWORD} \
 		--locale=en_US --country=TW --time-zone=UTC \
 		--script-template=${PWD}/UnattendedTemplates/ubuntu-preseed.cfg \
-		--post-install-template=${PWD}/UnattendedTemplates/ubuntu-postinstall.sh \
 		--start-vm=headless
 done
 
