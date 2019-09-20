@@ -9,7 +9,7 @@ do
 	FORWARD_PORT=$3
 
 	echo "Enable forwarding localhost:${FORWARD_PORT} to ${NODE}:22"
-	echo VBoxManage controlvm ${NODE} natpf1 "ssh-${NODE},tcp,127.0.0.1,${FORWARD_PORT},,22"
+	VBoxManage controlvm ${NODE} natpf1 "ssh-${NODE},tcp,127.0.0.1,${FORWARD_PORT},,22"
 	sudo iptables -t nat -A PREROUTING -p tcp \
 		-d ${NODEIP} --dport 22 \
 		-j DNAT --to-destination 127.0.0.1:${FORWARD_PORT}

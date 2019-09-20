@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOSTFILE=${PWD}/assets/hosts
+HOSTFILE=${PWD}/VirtualBoxVMConfigs/hosts
 USERNAME=`whoami`
 
 for NODE in master1 worker1 worker2 worker3 worker4
