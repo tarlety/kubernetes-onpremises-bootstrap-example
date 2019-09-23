@@ -3,7 +3,7 @@
 HOSTFILE=${PWD}/VirtualBoxVMConfigs/hosts
 USERNAME=`whoami`
 
-for NODE in master1 worker1
+for NODE in master1 worker1 worker2
 do
 	# install hosts file
 	cat ${HOSTFILE} | ssh ${NODE} "sudo -n tee /etc/hosts"

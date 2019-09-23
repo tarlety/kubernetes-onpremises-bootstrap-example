@@ -1,10 +1,20 @@
 #!/bin/bash
 
-for NODE in master1 worker1 worker2 worker3 worker4
+for t in master1,10.13.13.101 worker1,10.13.13.102 worker2,10.13.13.103 # worker3,10.13.13.104 worker4,10.13.13.105
 do
+	IFS=","
+	set -- $t
+	NODE=$1
+	NODEIP=$2
+
 	VBoxManage controlvm ${NODE} poweroff
 	sleep 2
 	VBoxManage unregistervm --delete ${NODE}
+
+	ssh-keygen -f ~/.ssh/known_hosts -R "${NODE}"
+	ssh-keygen -f ~/.ssh/known_hosts -R "[${NODE}]:${SECURE_PORT}"
+	ssh-keygen -f ~/.ssh/known_hosts -R "${NODEIP}"
+	ssh-keygen -f ~/.ssh/known_hosts -R "[${NODEIP}]:${SECURE_PORT}"
 done
 
 VBoxManage dhcpserver remove --netname intnet
@@ -26,3 +36,4 @@ do
 		-d ${NODEIP} --dport 22 \
 		-j DNAT --to-destination 127.0.0.1:${FORWARD_PORT}
 done
+
