@@ -2,6 +2,7 @@
 
 KUBERNETES_VERSION='=1.15.0-00'
 NETWORK=10.244.0.0/16
+MASTERIP=10.13.13.101
 
 for NODE in master1 worker1 # worker2
 do
@@ -18,7 +19,7 @@ do
         "
 done
 
-ssh master1 "sudo kubeadm init --pod-network-cidr ${NETWORK}" 2>&1 > init
+ssh master1 "sudo kubeadm init --pod-network-cidr ${NETWORK} --apiserver-advertise-address ${MASTERIP}" 2>&1 > init
 
 ssh master1 "
 	mkdir -p \${HOME}/.kube ;
