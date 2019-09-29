@@ -3,7 +3,7 @@
 CEPHCOMMON_VERSION='=12.2.12-0ubuntu0.18.04.2'
 ACTIVEMDS='master1'
 
-for NODE in master1 # worker1 worker2
+for NODE in master1 worker1 # worker2
 do
 	ssh ${NODE} "
 		sudo apt install ceph-common${CEPHCOMMON_VERSION} autofs -y ;
