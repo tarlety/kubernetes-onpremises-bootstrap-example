@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CEPHCOMMON_VERSION='=12.2.12-0ubuntu0.18.04.2'
+CEPHCOMMON_VERSION='=12.2.12-0ubuntu0.18.04.3'
 ACTIVEMDS='master1'
 
 for NODE in master1 worker1 # worker2

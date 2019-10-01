@@ -19,3 +19,21 @@ do
 
 	ssh-copy-id -o "StrictHostKeyChecking no" -i ~/.ssh/id_rsa "${NODE}"
 done
+
+for t in master1,10.13.13.101
+do
+	IFS=","
+	set -- $t
+	NODE=$1
+	NODEIP=$2
+	PORT=6443
+
+	echo "Enable forwarding localhost:${PORT} to ${NODE}:${PORT}"
+	VBoxManage controlvm ${NODE} natpf1 "${NODE}-${PORT},tcp,127.0.0.1,${PORT},,${PORT}"
+	sudo iptables -t nat -A PREROUTING -p tcp \
+		-d ${NODEIP} --dport ${PORT} \
+		-j DNAT --to-destination 127.0.0.1:${PORT}
+	sudo iptables -t nat -A OUTPUT -p tcp \
+		-d ${NODEIP} --dport ${PORT} \
+		-j DNAT --to-destination 127.0.0.1:${PORT}
+done
