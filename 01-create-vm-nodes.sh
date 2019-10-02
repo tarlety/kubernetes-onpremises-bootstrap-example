@@ -20,7 +20,7 @@ do
 	VBoxManage storagectl ${NODE} --name "SATA Controller" --add sata
 	VBoxManage storagectl ${NODE} --name "IDE Controller" --add ide
 
-	for id in 1 2 3
+	for id in 1 2
 	do
 	    DISK="${HOME}/VirtualBox VMs/${NODE}/disk-${id}.vdi"
 	    VBoxManage createvdi --filename "${DISK}" --size 10240

@@ -13,12 +13,6 @@ do
 		sudo chmod 644 /etc/hosts;
 		"
 
-	# install all updates
-	ssh ${NODE} "
-		sudo apt update -y;
-		sudo apt upgrade -y;
-		"
-
 	# install docker
 	ssh ${NODE} "
 		sudo apt install docker.io -y ;

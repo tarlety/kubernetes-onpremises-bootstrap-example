@@ -122,7 +122,7 @@ do
 			${DOCKERIMAGE} mgr
 		"
 
-	for DEV in /dev/sdb /dev/sdc
+	for DEV in /dev/sdb
 	do
 		OSDNAME=osd${DEV//\//-}
 		ssh ${NODE} "
