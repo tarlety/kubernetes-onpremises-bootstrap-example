@@ -20,5 +20,7 @@ do
 		--script-template=${PWD}/ubuntu-preseed.cfg \
 		--post-install-template=${PWD}/ubuntu-postinstall.sh \
 		--start-vm=headless
+
+	sleep 180
 done
 
