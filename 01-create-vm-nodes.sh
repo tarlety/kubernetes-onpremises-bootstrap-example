@@ -1,5 +1,7 @@
 #!/bin/bash
 
+RAMSIZE=${1:2048}
+
 VBoxManage dhcpserver add --netname intnet \
   --ip 10.13.13.100 \
   --netmask 255.255.255.0 \
@@ -11,7 +13,7 @@ do
 	VBoxManage createvm --name ${NODE} --register
 	VBoxManage modifyvm ${NODE} \
 		--cpus 2 \
-		--memory 2048 \
+		--memory ${RAMSIZE} \
 		--acpi on \
 		--boot2 dvd \
 		--nic1 nat --nic2 intnet \

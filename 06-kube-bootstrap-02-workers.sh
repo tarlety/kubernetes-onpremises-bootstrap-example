@@ -7,7 +7,7 @@ MASTERIP=10.13.13.101
 TOKEN=$(cat init | grep 'kubeadm join' | rev| cut -d' ' -f2 | rev)
 HASH=$(cat init | grep 'discovery-token-ca-cert-hash' | rev | cut -d: -f1 | rev)
 
-for NODE in worker1 #worker2
+for NODE in worker1 worker2
 do
     ssh ${NODE} "
         sudo apt update -y;
