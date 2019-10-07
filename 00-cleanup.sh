@@ -12,9 +12,7 @@ do
 	VBoxManage unregistervm --delete ${NODE}
 
 	ssh-keygen -f ~/.ssh/known_hosts -R "${NODE}"
-	ssh-keygen -f ~/.ssh/known_hosts -R "[${NODE}]:${SECURE_PORT}"
 	ssh-keygen -f ~/.ssh/known_hosts -R "${NODEIP}"
-	ssh-keygen -f ~/.ssh/known_hosts -R "[${NODEIP}]:${SECURE_PORT}"
 done
 
 VBoxManage dhcpserver remove --netname intnet

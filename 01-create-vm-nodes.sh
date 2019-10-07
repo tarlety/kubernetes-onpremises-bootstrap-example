@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RAMSIZE=${1:2048}
+RAMSIZE=${1:-2048}
 
 VBoxManage dhcpserver add --netname intnet \
   --ip 10.13.13.100 \

@@ -2,6 +2,7 @@
 
 KUBERNETES_VERSION='=1.15.0-00'
 NETWORK=10.244.0.0/16
+VIP=10.13.13.201
 MASTERIP=10.13.13.101
 
 for NODE in master1 worker1 worker2
@@ -19,7 +20,7 @@ do
         "
 done
 
-ssh master1 "sudo kubeadm init --pod-network-cidr ${NETWORK} --apiserver-advertise-address ${MASTERIP} --ignore-preflight-errors=DirAvailable--var-lib-etcd" 2>&1 > init
+ssh master1 "sudo kubeadm init --pod-network-cidr ${NETWORK} --control-plane-endpoint '${VIP}:6443' --upload-certs" 2>&1 > init
 
 ssh master1 "
 	mkdir -p \${HOME}/.kube ;
