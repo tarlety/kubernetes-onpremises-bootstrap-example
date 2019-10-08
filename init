@@ -1,4 +1,4 @@
-[init] Using Kubernetes version: v1.15.4
+[init] Using Kubernetes version: v1.16.1
 [preflight] Running pre-flight checks
 [preflight] Pulling images required for setting up a Kubernetes cluster
 [preflight] This might take a minute or two, depending on the speed of your internet connection
@@ -7,17 +7,20 @@
 [kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
 [kubelet-start] Activating the kubelet service
 [certs] Using certificateDir folder "/etc/kubernetes/pki"
-[certs] Using existing front-proxy-ca certificate authority
-[certs] Using existing front-proxy-client certificate and key on disk
-[certs] Using existing etcd/ca certificate authority
-[certs] Using existing etcd/peer certificate and key on disk
-[certs] Using existing etcd/healthcheck-client certificate and key on disk
-[certs] Using existing etcd/server certificate and key on disk
-[certs] Using existing apiserver-etcd-client certificate and key on disk
-[certs] Using existing ca certificate authority
-[certs] Using existing apiserver certificate and key on disk
-[certs] Using existing apiserver-kubelet-client certificate and key on disk
-[certs] Using the existing "sa" key
+[certs] Generating "ca" certificate and key
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [master1 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 10.13.13.101 10.13.13.201]
+[certs] Generating "apiserver-kubelet-client" certificate and key
+[certs] Generating "front-proxy-ca" certificate and key
+[certs] Generating "front-proxy-client" certificate and key
+[certs] Generating "etcd/ca" certificate and key
+[certs] Generating "etcd/server" certificate and key
+[certs] etcd/server serving cert is signed for DNS names [master1 localhost] and IPs [10.13.13.101 127.0.0.1 ::1]
+[certs] Generating "etcd/peer" certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [master1 localhost] and IPs [10.13.13.101 127.0.0.1 ::1]
+[certs] Generating "etcd/healthcheck-client" certificate and key
+[certs] Generating "apiserver-etcd-client" certificate and key
+[certs] Generating "sa" key and public key
 [kubeconfig] Using kubeconfig folder "/etc/kubernetes"
 [kubeconfig] Writing "admin.conf" kubeconfig file
 [kubeconfig] Writing "kubelet.conf" kubeconfig file
@@ -29,14 +32,15 @@
 [control-plane] Creating static Pod manifest for "kube-scheduler"
 [etcd] Creating static Pod manifest for local etcd in "/etc/kubernetes/manifests"
 [wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
-[apiclient] All control plane components are healthy after 38.008437 seconds
+[apiclient] All control plane components are healthy after 23.021431 seconds
 [upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
-[kubelet] Creating a ConfigMap "kubelet-config-1.15" in namespace kube-system with the configuration for the kubelets in the cluster
-[upload-certs] Skipping phase. Please see --upload-certs
+[kubelet] Creating a ConfigMap "kubelet-config-1.16" in namespace kube-system with the configuration for the kubelets in the cluster
+[upload-certs] Storing the certificates in Secret "kubeadm-certs" in the "kube-system" Namespace
+[upload-certs] Using certificate key:
+9b8749cde6fbf4ceed049e1c56ac1945a93cca99f9ddfc0b22355b8be6443f4e
 [mark-control-plane] Marking the node master1 as control-plane by adding the label "node-role.kubernetes.io/master=''"
 [mark-control-plane] Marking the node master1 as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule]
-[kubelet-check] Initial timeout of 40s passed.
-[bootstrap-token] Using token: 72bnnx.qsid3akgha5isid9
+[bootstrap-token] Using token: au2bc3.ooxbzv25td1dugzg
 [bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
 [bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
 [bootstrap-token] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
@@ -57,7 +61,17 @@ You should now deploy a pod network to the cluster.
 Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
   https://kubernetes.io/docs/concepts/cluster-administration/addons/
 
+You can now join any number of the control-plane node running the following command on each as root:
+
+  kubeadm join 10.13.13.201:6443 --token au2bc3.ooxbzv25td1dugzg \
+    --discovery-token-ca-cert-hash sha256:b9a394aa285df50f87291095e585d64e86db3f81479fd40a18d32ea9da38d05b \
+    --control-plane --certificate-key 9b8749cde6fbf4ceed049e1c56ac1945a93cca99f9ddfc0b22355b8be6443f4e
+
+Please note that the certificate-key gives access to cluster sensitive data, keep it secret!
+As a safeguard, uploaded-certs will be deleted in two hours; If necessary, you can use 
+"kubeadm init phase upload-certs --upload-certs" to reload certs afterward.
+
 Then you can join any number of worker nodes by running the following on each as root:
 
-kubeadm join 10.13.13.101:6443 --token 72bnnx.qsid3akgha5isid9 \
-    --discovery-token-ca-cert-hash sha256:3d54b0a847b77db9b647f4519912d9b215fc81d0dcd2c4142a3d0efb6035b932 
+kubeadm join 10.13.13.201:6443 --token au2bc3.ooxbzv25td1dugzg \
+    --discovery-token-ca-cert-hash sha256:b9a394aa285df50f87291095e585d64e86db3f81479fd40a18d32ea9da38d05b 

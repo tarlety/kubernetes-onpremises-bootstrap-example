@@ -1,13 +1,16 @@
 #!/bin/bash
 
-KUBERNETES_VERSION='=1.15.0-00'
+#KUBERNETES_VERSION='=1.15.0-00'
 NETWORK=10.244.0.0/16
 VIP=10.13.13.201
-MASTERIP=10.13.13.101
 
-for NODE in master1 worker1 worker2
+TOKEN=$(cat init | grep 'kubeadm join' | head -1 | rev | cut -d' ' -f2 | rev)
+HASH=$(cat init | grep 'discovery-token-ca-cert-hash' | head -1 | rev | cut -d' ' -f2 | rev)
+KEY=$(cat init | grep 'certificate-key' | head -1 | rev | cut -d' ' -f1 | rev)
+
+for NODEIP in 10.13.13.102 10.13.13.103
 do
-    ssh ${NODE} "
+    ssh ${NODEIP} "
         sudo apt update -y;
         sudo apt install -y apt-transport-https curl gpg;
         curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - ;
@@ -18,15 +21,7 @@ do
         sudo swapoff -a ;
         sudo sed -i -e 's/^\\([^#].*swap.*\\)$/#\\1/g' /etc/fstab ;
         "
+
+    ssh ${NODEIP} "sudo kubeadm join ${VIP}:6443 --token ${TOKEN} --discovery-token-ca-cert-hash ${HASH} --control-plane --certificate-key ${KEY} --apiserver-advertise-address ${NODEIP} --v=5"
 done
-
-ssh master1 "sudo kubeadm init --pod-network-cidr ${NETWORK} --control-plane-endpoint '${VIP}:6443' --upload-certs" 2>&1 > init
-
-ssh master1 "
-	mkdir -p \${HOME}/.kube ;
-	sudo cp -f /etc/kubernetes/admin.conf \${HOME}/.kube/config ;
-	sudo chown \$(id -u):\$(id -g) \${HOME}/.kube/config ;
-	"
-
-ssh master1 "kubectl apply -f https://docs.projectcalico.org/v3.8/manifests/canal.yaml"
 
