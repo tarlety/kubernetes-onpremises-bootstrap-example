@@ -10,3 +10,6 @@ ff02::2 ip6-allrouters
 10.13.13.103 worker2
 10.13.13.104 worker3
 10.13.13.105 worker4
+10.13.13.106 master2
+10.13.13.107 master3
+10.13.13.201 kube-apiserver

@@ -8,7 +8,7 @@ VBoxManage dhcpserver add --netname intnet \
   --lowerip 10.13.13.101 --upperip 10.13.13.254 \
   --enable
 
-for NODE in master1 worker1 worker2 # worker3 worker4
+for NODE in master1 master2 master3 # worker1 worker2 # worker3 worker4
 do
 	VBoxManage createvm --name ${NODE} --register
 	VBoxManage modifyvm ${NODE} \

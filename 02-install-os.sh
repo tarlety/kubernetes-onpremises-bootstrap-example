@@ -4,7 +4,7 @@ ISO=~/Documents/iso/ubuntu-18.04.2-server-amd64.iso
 USERNAME=`whoami`
 PASSWORD=iamironman
 
-for NODE in master1 worker1 worker2 # worker3 worker4
+for NODE in master1 master2 master3 # worker1 worker2 # worker3 worker4
 do
 	VBoxManage storageattach ${NODE} \
 		--storagectl "IDE Controller" --port 0 --device 0 \

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for t in master1,10.13.13.101 worker1,10.13.13.102 worker2,10.13.13.103 # worker3,10.13.13.104 worker4,10.13.13.105
+for t in master1,10.13.13.101 worker1,10.13.13.102 worker2,10.13.13.103 worker3,10.13.13.104 worker4,10.13.13.105 master2,10.13.13.106 master3,10.13.13.107
 do
 	IFS=","
 	set -- $t
@@ -17,7 +17,7 @@ done
 
 VBoxManage dhcpserver remove --netname intnet
 
-for t in master1,10.13.13.101,2201 worker1,10.13.13.102,2202 worker2,10.13.13.103,2203 worker3,10.13.13.104,2204 worker4,10.13.13.105,2205
+for t in master1,10.13.13.101,2201 worker1,10.13.13.102,2202 worker2,10.13.13.103,2203 worker3,10.13.13.104,2204 worker4,10.13.13.105,2205 master2,10.13.13.106,2206 master3,10.13.13.207,2207
 do
 	IFS=","
 	set -- $t
